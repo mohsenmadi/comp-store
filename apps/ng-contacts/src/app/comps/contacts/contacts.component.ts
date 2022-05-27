@@ -7,7 +7,7 @@ import { Contact } from "@comp-store/data-model";
   styleUrls: ['./contacts.component.scss'],
 })
 export class ContactsComponent implements OnInit {
-  @Input() contacts!:Contact[];
+  @Input() contacts!:Contact[] | null;
 
   constructor() {}
 

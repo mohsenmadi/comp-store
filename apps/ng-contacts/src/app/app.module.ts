@@ -8,6 +8,8 @@ import { ContactsComponent } from './comps/contacts/contacts.component';
 import { HeaderComponent } from './comps/header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EditContactComponent } from './comps/edit-contact/edit-contact.component';
+import { MaterialModule } from "@comp-store/material";
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -18,7 +20,12 @@ import { EditContactComponent } from './comps/edit-contact/edit-contact.componen
     HeaderComponent,
     EditContactComponent,
   ],
-  imports: [BrowserModule, BrowserAnimationsModule],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    HttpClientModule
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

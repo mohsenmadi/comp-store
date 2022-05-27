@@ -5,9 +5,7 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/ng-contacts",
         "index": "apps/ng-contacts/src/index.html",
@@ -68,7 +66,10 @@
           "browserTarget": "ng-contacts:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "options": {
+        "proxyConfig": "apps/ng-contacts/proxy.conf.json"
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -87,9 +88,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/apps/ng-contacts"
-      ],
+      "outputs": ["coverage/apps/ng-contacts"],
       "options": {
         "jestConfig": "apps/ng-contacts/jest.config.ts",
         "passWithNoTests": true

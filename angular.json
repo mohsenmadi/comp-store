@@ -2,6 +2,7 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
+    "api": "apps/api",
     "material": "libs/material",
     "ng-contacts": "apps/ng-contacts",
     "ng-contacts-e2e": "apps/ng-contacts-e2e"

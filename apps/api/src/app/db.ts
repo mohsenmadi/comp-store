@@ -1,4 +1,6 @@
-export const CONTACTS = [
+import { Contact } from "@comp-store/data-model";
+
+export const CONTACTS: Contact[] = [
   {
     name: 'Bibbye Gutcher',
     phone: '885-131-9176',

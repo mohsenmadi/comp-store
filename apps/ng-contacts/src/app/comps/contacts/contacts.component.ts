@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Contact } from "@comp-store/data-model";
 
 @Component({
   selector: 'comp-store-contacts',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./contacts.component.scss'],
 })
 export class ContactsComponent implements OnInit {
+  @Input() contacts!:Contact[];
+
   constructor() {}
 
   ngOnInit(): void {}

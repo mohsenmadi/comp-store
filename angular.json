@@ -1,0 +1,8 @@
+{
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
+  "version": 2,
+  "projects": {
+    "ng-contacts": "apps/ng-contacts",
+    "ng-contacts-e2e": "apps/ng-contacts-e2e"
+  }
+}

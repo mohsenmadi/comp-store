@@ -6,6 +6,8 @@ import { NxWelcomeComponent } from './nx-welcome.component';
 import { AddContactComponent } from './comps/add-contact/add-contact.component';
 import { ContactsComponent } from './comps/contacts/contacts.component';
 import { HeaderComponent } from './comps/header/header.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EditContactComponent } from './comps/edit-contact/edit-contact.component';
 
 @NgModule({
   declarations: [
@@ -14,8 +16,9 @@ import { HeaderComponent } from './comps/header/header.component';
     AddContactComponent,
     ContactsComponent,
     HeaderComponent,
+    EditContactComponent,
   ],
-  imports: [BrowserModule],
+  imports: [BrowserModule, BrowserAnimationsModule],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -17,4 +17,12 @@ export class ContactsComponent implements OnInit {
   ngOnInit(): void {
     this.dataSource = this.contacts;
   }
+
+  editContact(contact:Contact) {
+    console.log('==> edit', contact)
+  }
+
+  deleteContact(contact:Contact) {
+    console.log('==> delete', contact)
+  }
 }

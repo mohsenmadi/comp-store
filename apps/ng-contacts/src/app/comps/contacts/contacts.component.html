@@ -19,7 +19,7 @@
   <ng-container matColumnDef="edit">
     <th mat-header-cell *matHeaderCellDef> </th>
     <td class="edit-mhc" mat-cell *matCellDef="let element">
-      <button mat-icon-button color="primary">
+      <button mat-icon-button (click)="editContact(element)" color="primary">
         <mat-icon>mode_edit</mat-icon>
       </button>
     </td>
@@ -28,7 +28,7 @@
   <ng-container matColumnDef="delete">
     <th mat-header-cell *matHeaderCellDef> </th>
     <td class="edit-mhc" mat-cell *matCellDef="let element">
-      <button mat-icon-button color="warn">
+      <button mat-icon-button (click)="deleteContact(element)" color="warn">
         <mat-icon>delete_forever</mat-icon>
       </button>
     </td>

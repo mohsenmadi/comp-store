@@ -55,50 +55,5 @@ export const CONTACTS: Contact[] = [
     name: 'Hortensia Fishleigh',
     phone: '434-950-3630',
     email: 'hfishleigha@ft.com'
-  },
-  {
-    name: 'Atlante Rait',
-    phone: '445-521-0518',
-    email: 'araitb@t-online.de'
-  },
-  {
-    name: 'Marysa Bartolomeoni',
-    phone: '256-694-5017',
-    email: 'mbartolomeonic@taobao.com'
-  },
-  {
-    name: 'Gussi Albasiny',
-    phone: '444-436-5627',
-    email: 'galbasinyd@jiathis.com'
-  },
-  {
-    name: 'Betsey Kears',
-    phone: '280-992-9432',
-    email: 'bkearse@simplemachines.org'
-  },
-  {
-    name: 'Conni Marzellano',
-    phone: '425-276-4741',
-    email: 'cmarzellanof@usgs.gov'
-  },
-  {
-    name: 'Natalina Burnsides',
-    phone: '826-545-7370',
-    email: 'nburnsidesg@wikipedia.org'
-  },
-  {
-    name: 'Scarface Samet',
-    phone: '606-139-9514',
-    email: 'ssameth@bloglovin.com'
-  },
-  {
-    name: 'Shelley Riglar',
-    phone: '822-991-7728',
-    email: 'sriglari@time.com'
-  },
-  {
-    name: 'Judon Keen',
-    phone: '539-279-0970',
-    email: 'jkeenj@bizjournals.com'
   }
 ];

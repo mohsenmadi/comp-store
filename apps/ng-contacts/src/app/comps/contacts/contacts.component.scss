@@ -1,0 +1,17 @@
+table {
+  width: 97%;
+  margin: auto;
+}
+
+table td, table th {
+  padding: 2px 20px;
+}
+
+.edit-mhc {
+  opacity: .4;
+
+  &:hover {
+    opacity: 1;
+    transform: scale(1.25);
+  }
+}

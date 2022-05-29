@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ContactApiService } from "./services/contact-api.service";
 import { Contact } from "@comp-store/data-model";
 import { Observable } from "rxjs";

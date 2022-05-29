@@ -1,1 +1,14 @@
-<p>header works!</p>
+<mat-toolbar color="primary">
+  <mat-icon>contacts</mat-icon>
+  <span style="padding-left: 8px">BB contacts</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="example-icon favorite-icon">
+    <mat-icon>add_circle</mat-icon>
+  </button>
+  <mat-form-field *ngIf="searchOn" appearance="fill">
+    <input matInput placeholder="search...">
+  </mat-form-field>
+  <button mat-icon-button class="example-icon" (click)="toggleSearch()">
+    <mat-icon>search</mat-icon>
+  </button>
+</mat-toolbar>

@@ -1,13 +1,17 @@
-table {
+.contacts-table {
   width: 100%;
-  margin: auto;
 }
 
-table td, table th {
-  padding: 2px 20px;
+.mat-column-name {
+  border-right: 1px solid currentColor;
 }
 
-.edit-mhc {
+.mat-column-phone {
+  padding-left: 16px;
+  font-size: 18px;
+}
+
+.edit-cols {
   opacity: .4;
 
   &:hover {

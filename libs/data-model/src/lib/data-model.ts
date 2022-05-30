@@ -3,3 +3,9 @@ export interface Contact {
   phone: string;
   email: string;
 }
+
+export const emptyContact:Contact = {
+  name: '',
+  phone: '',
+  email: ''
+}

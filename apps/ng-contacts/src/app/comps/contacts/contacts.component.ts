@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Contact } from "@comp-store/data-model";
-import { Observable } from "rxjs";
+import { filter, Observable, take } from "rxjs";
+import { openEditContactDialog } from "../edit-contact/edit-contact.component";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: 'comp-store-contacts',
@@ -12,14 +14,21 @@ export class ContactsComponent implements OnInit {
   dataSource: any;
   displayedColumns = ['name', 'phone', 'email', 'edit', 'delete'];
 
-  constructor() {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.dataSource = this.contacts;
   }
 
   editContact(contact:Contact) {
-    console.log('==> edit', contact)
+    openEditContactDialog(this.dialog, contact)
+      .pipe(
+        take(1),
+        filter(val => !!val)
+      )
+      .subscribe(
+        val => console.log('=e=>', val)
+      )
   }
 
   deleteContact(contact:Contact) {

@@ -45,15 +45,5 @@ export const CONTACTS: Contact[] = [
     name: 'Cordie Crosscombe',
     phone: '907-576-1311',
     email: 'ccrosscombe8@youku.com'
-  },
-  {
-    name: 'Rodrigo Alexsandrovich',
-    phone: '799-587-4536',
-    email: 'ralexsandrovich9@illinois.edu'
-  },
-  {
-    name: 'Hortensia Fishleigh',
-    phone: '434-950-3630',
-    email: 'hfishleigha@ft.com'
   }
 ];

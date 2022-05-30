@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ContactApiService } from "./services/contact-api.service";
 import { Contact } from "@comp-store/data-model";
-import { map, Observable, take } from "rxjs";
+import { map, Observable, of, take } from "rxjs";
 
 @Component({
   selector: 'comp-store-root',
@@ -11,6 +11,7 @@ import { map, Observable, take } from "rxjs";
 export class AppComponent implements OnInit {
   contacts$!: Observable<Contact[]>;
   contactsFiltered$: any;
+  searchStr = '';
 
   constructor(private service: ContactApiService) {
   }
@@ -21,6 +22,7 @@ export class AppComponent implements OnInit {
   }
 
   searchKeys(searchKeys: any) {
+    this.searchStr = searchKeys;
     this.contactsFiltered$ = this.contacts$
       .pipe(
         take(1),
@@ -30,6 +32,10 @@ export class AppComponent implements OnInit {
   }
 
   addNewContact(contact: Contact) {
-    console.log('=nc=', contact)
+    this.service.createContact(contact)
+      .subscribe(contacts => {
+        this.ngOnInit();
+        this.searchKeys(this.searchStr)
+      });
   }
 }

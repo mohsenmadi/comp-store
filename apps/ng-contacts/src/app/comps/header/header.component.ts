@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit {
   @ViewChild('searchInput') searchInput!: ElementRef;
   @Output() emitSearchKeys = new EventEmitter();
   @Output() emitAddContact = new EventEmitter<Contact>();
+  searchStr = '';
 
   constructor(private cd: ChangeDetectorRef,
               private dialog: MatDialog) {

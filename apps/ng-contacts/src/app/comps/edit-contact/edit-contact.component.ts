@@ -15,6 +15,7 @@ export class EditContactComponent implements OnInit {
   }
 
   form = this.fb.group({
+    id: [this.contact.id],
     name: [this.contact.name, Validators.required],
     phone: [this.contact.phone, Validators.required],
     email: [this.contact.email, Validators.required],

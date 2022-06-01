@@ -38,26 +38,20 @@ export class AppComponent implements OnInit {
   }
 
   onAdd(contact: Contact) {
-    this.service.create(contact)
-      .pipe(
-        take(1)
-      )
-      .subscribe(() => this.prepViewData());
+    this.doRestOp(this.service.create(contact));
   }
 
   onUpdate(contact: Contact) {
-    this.service.update(contact)
-      .pipe(
-        take(1)
-      )
-      .subscribe(() => this.prepViewData());
+    this.doRestOp(this.service.update(contact));
   }
 
   onDelete(contact: Contact) {
-    this.service.delete(contact)
-      .pipe(
-        take(1)
-      )
-      .subscribe(() => this.prepViewData());
+    this.doRestOp(this.service.delete(contact));
+  }
+
+  doRestOp(obs: Observable<any>) {
+    obs.pipe(
+      take(1)
+    ).subscribe(() => this.prepViewData());
   }
 }

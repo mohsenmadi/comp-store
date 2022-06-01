@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ContactApiService } from "./services/contact-api.service";
+import { Component, OnInit } from '@angular/core';
 import { Contact } from "@comp-store/data-model";
-import { map, Observable, of, take } from "rxjs";
+import { map, Observable, take } from "rxjs";
+import { ContactsService } from "@comp-store/data-api";
 
 @Component({
   selector: 'comp-store-root',
@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   contactsFiltered$: any;
   searchStr = '';
 
-  constructor(private service: ContactApiService) {
+  constructor(private service: ContactsService) {
   }
 
   ngOnInit() {

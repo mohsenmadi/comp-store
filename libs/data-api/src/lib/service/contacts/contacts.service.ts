@@ -8,7 +8,7 @@ const URL = 'http://localhost:3333/api/contacts';
 @Injectable({
   providedIn: 'root'
 })
-export class ContactApiService {
+export class ContactsService {
 
   constructor(private http:HttpClient) { }
 

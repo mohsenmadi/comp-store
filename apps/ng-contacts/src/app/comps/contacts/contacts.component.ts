@@ -6,7 +6,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { Contact } from "@comp-store/data-model";
-import { filter, Observable, of, take } from "rxjs";
+import { filter, Observable, take } from "rxjs";
 import { openEditContactDialog } from "../edit-contact/edit-contact.component";
 import { MatDialog } from "@angular/material/dialog";
 

@@ -1,8 +1,8 @@
 import {
-  Component,
+  Component, EventEmitter,
   Input,
   OnChanges,
-  OnInit,
+  OnInit, Output,
   SimpleChanges
 } from '@angular/core';
 import { Contact } from "@comp-store/data-model";
@@ -17,6 +17,9 @@ import { MatDialog } from "@angular/material/dialog";
 })
 export class ContactsComponent implements OnInit, OnChanges {
   @Input() contacts$!:Observable<Contact[]> | null;
+  @Output() emitEdit = new EventEmitter<Contact>();
+  @Output() emitDelete = new EventEmitter<Contact>();
+
   dataSource: any;
   displayedColumns = ['name', 'phone', 'email', 'edit', 'delete'];
 
@@ -36,12 +39,10 @@ export class ContactsComponent implements OnInit, OnChanges {
         take(1),
         filter(val => !!val)
       )
-      .subscribe(
-        val => console.log('=e=>', val)
-      )
+      .subscribe(contact => this.emitEdit.emit(contact))
   }
 
   deleteContact(contact:Contact) {
-    console.log('==> delete', contact)
+    this.emitDelete.emit(contact);
   }
 }

@@ -29,7 +29,8 @@ export class ContactsService {
     return `This action updates a #${id} contact`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} contact`;
+  remove(id: string) {
+    this.contacts = this.contacts.filter(contact => contact.id !== id);
+    return this.contacts;
   }
 }

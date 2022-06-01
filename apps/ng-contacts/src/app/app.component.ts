@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.contacts$ = this.service.getContacts();
+    this.contacts$ = this.service.all();
     this.contactsFiltered$ = this.contacts$;
   }
 
@@ -32,10 +32,25 @@ export class AppComponent implements OnInit {
   }
 
   addNewContact(contact: Contact) {
-    this.service.createContact(contact)
+    this.service.create(contact)
+      .pipe(
+        take(1)
+      )
       .subscribe(contacts => {
         this.ngOnInit();
-        this.searchKeys(this.searchStr)
+        this.searchKeys(this.searchStr);
       });
+  }
+
+  onEdit($event: Contact) {
+
+  }
+
+  onDelete(contact: Contact) {
+    this.service.deleteContact(contact)
+      .pipe(
+        take(1)
+      )
+      .subscribe(() => this.ngOnInit());
   }
 }

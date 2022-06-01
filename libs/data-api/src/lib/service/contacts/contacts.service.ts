@@ -10,13 +10,18 @@ const URL = 'http://localhost:3333/api/contacts';
 })
 export class ContactsService {
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
-  getContacts(): Observable<Contact[]> {
+  all(): Observable<Contact[]> {
     return this.http.get<Contact[]>(URL);
   }
 
-  createContact(contact: Contact): Observable<Contact[]> {
+  create(contact: Contact): Observable<Contact[]> {
     return this.http.post<Contact[]>(URL, contact);
+  }
+
+  deleteContact(contact: Contact) {
+    return this.http.delete(URL + `/${contact.id}`);
   }
 }

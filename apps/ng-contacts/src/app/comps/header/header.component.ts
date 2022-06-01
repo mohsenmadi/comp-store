@@ -1,4 +1,5 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef,
+  EventEmitter, Output, ViewChild } from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
 import { openEditContactDialog } from "../edit-contact/edit-contact.component";
 import { filter, take } from "rxjs";
@@ -9,18 +10,15 @@ import { Contact, emptyContact } from "@comp-store/data-model";
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   searchOn = false;
   @ViewChild('searchInput') searchInput!: ElementRef;
-  @Output() emitSearchKeys = new EventEmitter();
+  @Output() emitSearchKeys = new EventEmitter<any>();
   @Output() emitAddContact = new EventEmitter<Contact>();
   searchStr = '';
 
   constructor(private cd: ChangeDetectorRef,
               private dialog: MatDialog) {
-  }
-
-  ngOnInit(): void {
   }
 
   toggleSearch() {

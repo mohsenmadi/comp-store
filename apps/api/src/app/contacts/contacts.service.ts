@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateContactDto } from './dto/update-contact.dto';
 import { CONTACTS } from "./db";
 import { Contact } from "@comp-store/data-model";
 import { v4 as uuidv4 } from 'uuid';
@@ -21,16 +20,20 @@ export class ContactsService {
     return this.contacts;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} contact`;
   }
 
-  update(id: number, updateContactDto: UpdateContactDto) {
-    return `This action updates a #${id} contact`;
+  update(id: string, contact: Contact) {
+    const idx = this.contacts.findIndex(contact => contact.id === id);
+    this.contacts[idx] = contact;
+    return this.contacts;
   }
 
+
   remove(id: string) {
-    this.contacts = this.contacts.filter(contact => contact.id !== id);
+    const idx = this.contacts.findIndex(contact => contact.id === id);
+    this.contacts.splice(idx, 1);
     return this.contacts;
   }
 }

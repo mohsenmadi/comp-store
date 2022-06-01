@@ -21,7 +21,11 @@ export class ContactsService {
     return this.http.post<Contact[]>(URL, contact);
   }
 
-  deleteContact(contact: Contact) {
+  update(contact: Contact) {
+    return this.http.put(URL + `/${contact.id}`, contact);
+  }
+
+  delete(contact: Contact) {
     return this.http.delete(URL + `/${contact.id}`);
   }
 }

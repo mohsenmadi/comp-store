@@ -1,7 +1,7 @@
-<comp-store-header (emitAddContact)="addNewContact($event)"
+<comp-store-header (emitAddContact)="onAdd($event)"
                    (emitSearchKeys)="searchKeys($event.value)">
 </comp-store-header>
 <comp-store-contacts [contacts$]="contactsFiltered$"
                      (emitDelete)="onDelete($event)"
-                     (emitEdit)="onEdit($event)">
+                     (emitUpdate)="onUpdate($event)">
 </comp-store-contacts>

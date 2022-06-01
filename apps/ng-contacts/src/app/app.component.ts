@@ -17,8 +17,13 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.prepViewData();
+  }
+
+  prepViewData() {
     this.contacts$ = this.service.all();
     this.contactsFiltered$ = this.contacts$;
+    this.searchKeys(this.searchStr);
   }
 
   searchKeys(searchKeys: any) {
@@ -28,29 +33,31 @@ export class AppComponent implements OnInit {
         take(1),
         map((contacts: any) =>
           contacts.filter((contact: Contact) =>
-            JSON.stringify(contact).toLowerCase().includes(searchKeys))));
+            JSON.stringify(contact).toLowerCase().includes(searchKeys))
+        ));
   }
 
-  addNewContact(contact: Contact) {
+  onAdd(contact: Contact) {
     this.service.create(contact)
       .pipe(
         take(1)
       )
-      .subscribe(contacts => {
-        this.ngOnInit();
-        this.searchKeys(this.searchStr);
-      });
+      .subscribe(() => this.prepViewData());
   }
 
-  onEdit($event: Contact) {
-
-  }
-
-  onDelete(contact: Contact) {
-    this.service.deleteContact(contact)
+  onUpdate(contact: Contact) {
+    this.service.update(contact)
       .pipe(
         take(1)
       )
-      .subscribe(() => this.ngOnInit());
+      .subscribe(() => this.prepViewData());
+  }
+
+  onDelete(contact: Contact) {
+    this.service.delete(contact)
+      .pipe(
+        take(1)
+      )
+      .subscribe(() => this.prepViewData());
   }
 }

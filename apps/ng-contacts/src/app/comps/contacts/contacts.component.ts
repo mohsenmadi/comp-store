@@ -17,7 +17,7 @@ import { MatDialog } from "@angular/material/dialog";
 })
 export class ContactsComponent implements OnInit, OnChanges {
   @Input() contacts$!:Observable<Contact[]> | null;
-  @Output() emitEdit = new EventEmitter<Contact>();
+  @Output() emitUpdate = new EventEmitter<Contact>();
   @Output() emitDelete = new EventEmitter<Contact>();
 
   dataSource: any;
@@ -33,13 +33,13 @@ export class ContactsComponent implements OnInit, OnChanges {
     this.dataSource = this.contacts$;
   }
 
-  editContact(contact:Contact) {
+  updateContact(contact:Contact) {
     openEditContactDialog(this.dialog, contact)
       .pipe(
         take(1),
         filter(val => !!val)
       )
-      .subscribe(contact => this.emitEdit.emit(contact))
+      .subscribe(contact => this.emitUpdate.emit(contact))
   }
 
   deleteContact(contact:Contact) {

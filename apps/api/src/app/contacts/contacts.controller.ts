@@ -1,6 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
-import { UpdateContactDto } from './dto/update-contact.dto';
 import { Contact } from "@comp-store/data-model";
 
 @Controller('contacts')
@@ -19,12 +18,12 @@ export class ContactsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.contactsService.findOne(+id);
+    return this.contactsService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateContactDto: UpdateContactDto) {
-    return this.contactsService.update(+id, updateContactDto);
+  @Put(':id')
+  update(@Param('id') id: string, @Body() contact: Contact) {
+    return this.contactsService.update(id, contact);
   }
 
   @Delete(':id')

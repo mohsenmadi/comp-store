@@ -8,7 +8,7 @@ import { ContactsStore } from "@comp-store/comp-store";
   selector: 'comp-store-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [ContactsStore]
+  providers: [ContactsStore] // having the provider here makes this like a global store
 })
 export class AppComponent implements OnInit {
   searchStr = '';
@@ -17,13 +17,14 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.service.all().subscribe(({
-      next: (contacts) => {
-        this.store.loadContacts(contacts);
-        this.store.loadContactsFiltered(contacts);
-        this.searchKeys(this.searchStr);
-      }
-    }));
+    this.service.all()
+      .pipe(take(1))
+      .subscribe((contacts) => {
+          this.store.loadContacts(contacts);
+          this.store.loadContactsFiltered(contacts);
+          this.searchKeys(this.searchStr);
+        }
+      );
   }
 
   searchKeys(searchKeys: any) {
@@ -35,7 +36,7 @@ export class AppComponent implements OnInit {
           contacts.filter((contact: Contact) =>
             JSON.stringify(contact).toLowerCase().includes(searchKeys))
         ))
-      .subscribe(contacts => this.store.loadContactsFiltered(contacts))
+      .subscribe(contacts => this.store.loadContactsFiltered(contacts));
   }
 
   onAdd(contact: Contact) {

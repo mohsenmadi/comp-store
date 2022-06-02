@@ -1,37 +1,27 @@
 import {
-  Component, EventEmitter,
-  Input,
-  OnChanges,
-  OnInit, Output,
-  SimpleChanges
+  Component, EventEmitter, Output,
 } from '@angular/core';
 import { Contact } from "@comp-store/data-model";
-import { filter, Observable, take } from "rxjs";
+import { filter, take } from "rxjs";
 import { openEditContactDialog } from "../edit-contact/edit-contact.component";
 import { MatDialog } from "@angular/material/dialog";
 import { ContactsStore } from "@comp-store/comp-store";
+
+// no longer need ngOnInit/onChanges
 
 @Component({
   selector: 'comp-store-contacts',
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.scss']
 })
-export class ContactsComponent implements OnInit, OnChanges {
+export class ContactsComponent {
   @Output() emitUpdate = new EventEmitter<Contact>();
   @Output() emitDelete = new EventEmitter<Contact>();
 
-  dataSource: any;
+  dataSource = this.store.contactsFiltered$;
   displayedColumns = ['name', 'phone', 'email', 'edit', 'delete'];
 
   constructor(private dialog: MatDialog, private store: ContactsStore) {}
-
-  ngOnInit(): void {
-    this.dataSource = this.store.contactsFiltered$;
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.dataSource = this.store.contactsFiltered$;
-  }
 
   updateContact(contact:Contact) {
     openEditContactDialog(this.dialog, contact)

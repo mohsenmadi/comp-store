@@ -2,18 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { Contact } from "@comp-store/data-model";
 import { map, Observable, take } from "rxjs";
 import { ContactsService } from "@comp-store/data-api";
+import { ContactsStore } from "@comp-store/comp-store";
 
 @Component({
   selector: 'comp-store-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers: [ContactsStore]
 })
 export class AppComponent implements OnInit {
   contacts$!: Observable<Contact[]>;
   contactsFiltered$: any;
   searchStr = '';
 
-  constructor(private service: ContactsService) {
+  constructor(private service: ContactsService, private store: ContactsStore) {
   }
 
   ngOnInit() {

@@ -11,32 +11,31 @@ import { ContactsStore } from "@comp-store/comp-store";
   providers: [ContactsStore]
 })
 export class AppComponent implements OnInit {
-  contacts$!: Observable<Contact[]>;
-  contactsFiltered$: any;
   searchStr = '';
 
   constructor(private service: ContactsService, private store: ContactsStore) {
   }
 
   ngOnInit() {
-    this.prepViewData();
-  }
-
-  prepViewData() {
-    this.contacts$ = this.service.all();
-    this.contactsFiltered$ = this.contacts$;
-    this.searchKeys(this.searchStr);
+    this.service.all().subscribe(({
+      next: (contacts) => {
+        this.store.loadContacts(contacts);
+        this.store.loadContactsFiltered(contacts);
+        this.searchKeys(this.searchStr);
+      }
+    }));
   }
 
   searchKeys(searchKeys: any) {
     this.searchStr = searchKeys;
-    this.contactsFiltered$ = this.contacts$
+    this.store.contacts$
       .pipe(
         take(1),
         map((contacts: any) =>
           contacts.filter((contact: Contact) =>
             JSON.stringify(contact).toLowerCase().includes(searchKeys))
-        ));
+        ))
+      .subscribe(contacts => this.store.loadContactsFiltered(contacts))
   }
 
   onAdd(contact: Contact) {
@@ -54,6 +53,6 @@ export class AppComponent implements OnInit {
   doRestOp(obs: Observable<any>) {
     obs.pipe(
       take(1)
-    ).subscribe(() => this.prepViewData());
+    ).subscribe(() => this.searchKeys(this.searchStr));
   }
 }

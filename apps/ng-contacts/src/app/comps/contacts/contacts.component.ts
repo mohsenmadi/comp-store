@@ -1,5 +1,5 @@
 import {
-  Component, EventEmitter, Output,
+  Component
 } from '@angular/core';
 import { Contact } from "@comp-store/data-model";
 import { filter, take } from "rxjs";
@@ -15,9 +15,6 @@ import { ContactsStore } from "@comp-store/comp-store";
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent {
-  @Output() emitUpdate = new EventEmitter<Contact>();
-  @Output() emitDelete = new EventEmitter<Contact>();
-
   dataSource = this.store.contactsFiltered$;
   displayedColumns = ['name', 'phone', 'email', 'edit', 'delete'];
 
@@ -29,10 +26,10 @@ export class ContactsComponent {
         take(1),
         filter(val => !!val)
       )
-      .subscribe(contact => this.emitUpdate.emit(contact))
+      .subscribe(contact => this.store.updateContact(contact))
   }
 
   deleteContact(contact:Contact) {
-    this.emitDelete.emit(contact);
+    this.store.deleteContact(contact);
   }
 }

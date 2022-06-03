@@ -1,9 +1,12 @@
-import { ChangeDetectorRef, Component, ElementRef,
-  EventEmitter, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef, Component, ElementRef,
+  EventEmitter, Output, ViewChild
+} from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
 import { openEditContactDialog } from "../edit-contact/edit-contact.component";
 import { filter, take } from "rxjs";
 import { Contact, emptyContact } from "@comp-store/data-model";
+import { ContactsStore } from "@comp-store/comp-store";
 
 @Component({
   selector: 'comp-store-header',
@@ -18,6 +21,7 @@ export class HeaderComponent {
   searchStr = '';
 
   constructor(private cd: ChangeDetectorRef,
+              private store: ContactsStore,
               private dialog: MatDialog) {
   }
 
@@ -34,6 +38,13 @@ export class HeaderComponent {
       .pipe(
         take(1),
         filter(val => !!val)
-      ).subscribe(contact => this.emitAddContact.next(contact))
+      ).subscribe(contact => this.emitAddContact.next(contact));
+  }
+
+  setSearchStr($event: any) {
+    this.searchStr = $event.target.value;
+    this.store.patchState({
+      searchStr: this.searchStr
+    });
   }
 }

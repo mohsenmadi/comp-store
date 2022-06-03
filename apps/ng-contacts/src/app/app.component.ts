@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Contact } from "@comp-store/data-model";
-import { map, Observable, take } from "rxjs";
+import { Observable, take } from "rxjs";
 import { ContactsService } from "@comp-store/data-api";
 import { ContactsStore } from "@comp-store/comp-store";
 
@@ -11,8 +11,6 @@ import { ContactsStore } from "@comp-store/comp-store";
   providers: [ContactsStore] // having the provider here makes this like a global store
 })
 export class AppComponent implements OnInit {
-  searchStr = '';
-
   constructor(private service: ContactsService, private store: ContactsStore) {
   }
 
@@ -21,22 +19,8 @@ export class AppComponent implements OnInit {
       .pipe(take(1))
       .subscribe((contacts) => {
           this.store.loadContacts(contacts);
-          this.store.loadContactsFiltered(contacts);
-          this.searchKeys(this.searchStr);
         }
       );
-  }
-
-  searchKeys(searchKeys: any) {
-    this.searchStr = searchKeys;
-    this.store.contacts$
-      .pipe(
-        take(1),
-        map((contacts: any) =>
-          contacts.filter((contact: Contact) =>
-            JSON.stringify(contact).toLowerCase().includes(searchKeys))
-        ))
-      .subscribe(contacts => this.store.loadContactsFiltered(contacts));
   }
 
   onAdd(contact: Contact) {
@@ -54,6 +38,6 @@ export class AppComponent implements OnInit {
   doRestOp(obs: Observable<any>) {
     obs.pipe(
       take(1)
-    ).subscribe(() => this.searchKeys(this.searchStr));
+    ).subscribe((contacts) => this.store.loadContacts(contacts));
   }
 }

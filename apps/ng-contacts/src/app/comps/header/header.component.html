@@ -11,7 +11,7 @@
     <input #searchInput
            matInput
            [(ngModel)]="searchStr"
-           (keyup)="emitSearchKeys.emit($event.target)"
+           (keyup)="setSearchStr($event)"
            placeholder="search...">
   </mat-form-field>
   <button mat-icon-button class="example-icon"

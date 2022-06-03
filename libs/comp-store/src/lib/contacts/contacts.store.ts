@@ -4,12 +4,12 @@ import { ComponentStore } from "@ngrx/component-store";
 
 export interface ContactsState {
   contacts: Contact[];
-  contactsFiltered: Contact[];
+  searchStr: string;
 }
 
 const defaultState: ContactsState = {
   contacts: [],
-  contactsFiltered: []
+  searchStr: ''
 };
 
 @Injectable()
@@ -22,11 +22,9 @@ export class ContactsStore extends ComponentStore<ContactsState> {
     ...state,
     contacts: contacts || []
   }));
-  readonly contacts$ = this.select(state => state.contacts);
 
-  readonly loadContactsFiltered = this.updater((state, contactsFiltered: Contact[] | null) => ({
-    ...state,
-    contactsFiltered: contactsFiltered || []
-  }));
-  readonly contactsFiltered$ = this.select(({contactsFiltered}) => contactsFiltered);
+  readonly contactsFiltered$ = this.select(({contacts, searchStr}) =>
+    contacts.filter((contact: Contact) =>
+      JSON.stringify(contact).toLowerCase().includes(searchStr))
+  );
 }

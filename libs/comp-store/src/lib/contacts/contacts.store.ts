@@ -20,6 +20,8 @@ export class ContactsStore extends ComponentStore<ContactsState> {
     super(defaultState);
   }
 
+  // store ops
+
   readonly loadContacts = this.updater((state, contacts: Contact[] | null) => ({
     ...state,
     contacts: contacts || []
@@ -29,6 +31,14 @@ export class ContactsStore extends ComponentStore<ContactsState> {
     contacts.filter((contact: Contact) =>
       JSON.stringify(contact).toLowerCase().includes(searchStr))
   );
+
+  // api service ops
+
+  initContacts() {
+    this.apiService.all()
+      .pipe(take(1))
+      .subscribe(contacts => this.loadContacts(contacts));
+  }
 
   deleteContact(contact: Contact) {
     this.doRestOp(this.apiService.delete(contact));
@@ -42,9 +52,9 @@ export class ContactsStore extends ComponentStore<ContactsState> {
     this.doRestOp(this.apiService.update(contact));
   }
 
-  private doRestOp(obs: Observable<any>) {
+  doRestOp(obs: Observable<any> = this.apiService.all()) {
     obs.pipe(
       take(1)
-    ).subscribe(contacts => this.loadContacts(contacts));
+    ).subscribe(contacts => this.patchState({contacts}));
   }
 }

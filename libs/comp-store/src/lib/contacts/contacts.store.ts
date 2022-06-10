@@ -2,7 +2,7 @@ import { Contact } from "@comp-store/data-model";
 import { Injectable } from "@angular/core";
 import { ComponentStore } from "@ngrx/component-store";
 import { ContactsService } from "@comp-store/data-api";
-import { Observable, take } from "rxjs";
+import { map, take, withLatestFrom } from "rxjs";
 
 export interface ContactsState {
   contacts: Contact[];
@@ -20,41 +20,71 @@ export class ContactsStore extends ComponentStore<ContactsState> {
     super(defaultState);
   }
 
-  // store ops
+  init() {
+    this.loadContacts();
+  }
 
-  readonly loadContacts = this.updater((state, contacts: Contact[] | null) => ({
-    ...state,
-    contacts: contacts || []
-  }));
+  private readonly loadContacts = () =>
+    this.apiService.all()
+      .pipe(take(1))
+      .subscribe(contacts => this.setState((state) => ({
+        ...state,
+        contacts
+      })));
+
+  readonly contacts$ =
+    this.select(({contacts}) => contacts);
 
   readonly contactsFiltered$ = this.select(({contacts, searchStr}) =>
     contacts.filter((contact: Contact) =>
       JSON.stringify(contact).toLowerCase().includes(searchStr))
   );
 
-  // api service ops
+  readonly contactsUpdate = this.updater((state, contacts: Contact[]) => ({
+    ...state,
+    contacts
+  }));
 
-  initContacts() {
-    this.apiService.all()
+  // "create" api returns created contact
+  // once emits a result, combine with class's state$, add, and patchState
+  addContact = (contact: Contact) => {
+    this.apiService.create(contact)
+      .pipe(
+        withLatestFrom(this.state$),
+        map(([apiContact, state]) => ([...state.contacts, apiContact])),
+        take(1))
+      .subscribe((contacts: any[]) =>
+        this.patchState({contacts})
+      );
+  }
+
+  // "update" api returns updated contact
+  // once emitted, combine with contacts$ from selector, locate and update through id,
+  //   and patchState
+  updateContact = (contact: Contact) => {
+    this.apiService.update(contact)
+      .pipe(
+        withLatestFrom(this.contacts$),
+        map(([apiContact, contacts]) => {
+          const idx = contacts.findIndex(contact => contact.id === apiContact.id);
+          const contactsClone = [...contacts];
+          contactsClone[idx] = apiContact;
+          return contactsClone;
+        }),
+        take(1)
+      )
+      .subscribe((contacts: any[]) =>
+        this.patchState({contacts})
+      );
+  }
+
+  // "remove" api returns the entire, modified collection
+  // once emitted, simply "update" state with new collection
+  deleteContact = (contact: Contact) => {
+    this.apiService.delete(contact)
       .pipe(take(1))
-      .subscribe(contacts => this.loadContacts(contacts));
-  }
-
-  deleteContact(contact: Contact) {
-    this.doRestOp(this.apiService.delete(contact));
-  }
-
-  createContact(contact: Contact) {
-    this.doRestOp(this.apiService.create(contact));
-  }
-
-  updateContact(contact: Contact) {
-    this.doRestOp(this.apiService.update(contact));
-  }
-
-  doRestOp(obs: Observable<any> = this.apiService.all()) {
-    obs.pipe(
-      take(1)
-    ).subscribe(contacts => this.patchState({contacts}));
+      .subscribe(contacts => {
+        this.contactsUpdate(contacts);
+      });
   }
 }

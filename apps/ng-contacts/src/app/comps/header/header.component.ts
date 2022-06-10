@@ -38,7 +38,7 @@ export class HeaderComponent {
       .pipe(
         take(1),
         filter(val => !!val)
-      ).subscribe(contact => this.store.createContact(contact));
+      ).subscribe(contact => this.store.addContact(contact));
   }
 
   setSearchStr($event: any) {
@@ -46,5 +46,9 @@ export class HeaderComponent {
     this.store.patchState({
       searchStr: this.searchStr
     });
+  }
+
+  reload() {
+    this.store.init();
   }
 }

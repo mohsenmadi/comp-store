@@ -12,6 +12,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.initContacts();
+    this.store.init();
   }
 }

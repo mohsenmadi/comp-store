@@ -45,6 +45,9 @@ export class ContactsStore extends ComponentStore<ContactsState> {
     contacts
   }));
 
+  readonly searchStrPatch = (searchStr:string) =>
+    this.patchState({searchStr})
+
   // "create" api returns created contact
   // once emits a result, combine with store's state$, add, and patchState
   addContact = (contact: Contact) => {

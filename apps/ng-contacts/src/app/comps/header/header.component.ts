@@ -43,9 +43,10 @@ export class HeaderComponent {
 
   setSearchStr($event: any) {
     this.searchStr = $event.target.value;
-    this.store.patchState({
-      searchStr: this.searchStr
-    });
+    this.store.searchStrPatch(this.searchStr);
+    // this.store.patchState({
+    //   searchStr: this.searchStr
+    // });
   }
 
   reload() {

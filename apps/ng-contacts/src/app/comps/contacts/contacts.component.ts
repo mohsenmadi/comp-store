@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { Contact } from "@comp-store/data-model";
 import { filter, take } from "rxjs";
 import { openEditContactDialog } from "../edit-contact/edit-contact.component";

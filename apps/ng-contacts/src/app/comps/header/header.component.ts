@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
 import { openEditContactDialog } from "../edit-contact/edit-contact.component";
-import { filter, take } from "rxjs";
+import { filter, Observable, take } from "rxjs";
 import { emptyContact } from "@comp-store/data-model";
 import { ContactsStore } from "@comp-store/comp-store";
 
@@ -18,7 +18,9 @@ import { ContactsStore } from "@comp-store/comp-store";
 export class HeaderComponent {
   searchOn = false;
   @ViewChild('searchInput') searchInput!: ElementRef;
-  searchStr = '';
+  get searchStr$(): Observable<string> {
+    return this.store.searchStr$;
+  }
 
   constructor(private cd: ChangeDetectorRef,
               private store: ContactsStore,
@@ -41,12 +43,8 @@ export class HeaderComponent {
       ).subscribe(contact => this.store.addContact(contact));
   }
 
-  setSearchStr($event: any) {
-    this.searchStr = $event.target.value;
-    this.store.searchStrPatch(this.searchStr);
-    // this.store.patchState({
-    //   searchStr: this.searchStr
-    // });
+  setSearchStr(searchStr: string) {
+    this.store.searchStrUpdate(searchStr);
   }
 
   reload() {

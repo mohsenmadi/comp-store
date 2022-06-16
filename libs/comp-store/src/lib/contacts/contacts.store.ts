@@ -35,18 +35,20 @@ export class ContactsStore extends ComponentStore<ContactsState> {
   readonly contacts$ =
     this.select(({contacts}) => contacts);
 
+  readonly searchStr$ =
+    this.select(({searchStr}) => searchStr);
+
   readonly contactsFiltered$ = this.select(({contacts, searchStr}) =>
     contacts.filter((contact: Contact) =>
-      JSON.stringify(contact).toLowerCase().includes(searchStr))
-  );
+      Object.values(contact).join('').toLowerCase().includes(searchStr)));
 
   readonly contactsUpdate = this.updater((state, contacts: Contact[]) => ({
     ...state,
     contacts
   }));
 
-  readonly searchStrPatch = (searchStr:string) =>
-    this.patchState({searchStr})
+  readonly searchStrUpdate = (searchStr: string) =>
+    this.patchState({searchStr});
 
   // "create" api returns created contact
   // once emits a result, combine with store's state$, add, and patchState
@@ -56,10 +58,10 @@ export class ContactsStore extends ComponentStore<ContactsState> {
         withLatestFrom(this.state$),
         map(([apiContact, state]) => ([...state.contacts, apiContact])),
         take(1))
-      .subscribe((contacts: any[]) =>
+      .subscribe((contacts: Contact[]) =>
         this.patchState({contacts})
       );
-  }
+  };
 
   // "update" api returns updated contact
   // once emitted, combine with contacts$ from selector, locate and update through id,
@@ -76,10 +78,10 @@ export class ContactsStore extends ComponentStore<ContactsState> {
         }),
         take(1)
       )
-      .subscribe((contacts: any[]) =>
+      .subscribe((contacts: Contact[]) =>
         this.patchState({contacts})
       );
-  }
+  };
 
   // "remove" api returns the entire, modified collection
   // once emitted, simply "update" state with new collection
@@ -89,5 +91,5 @@ export class ContactsStore extends ComponentStore<ContactsState> {
       .subscribe(contacts => {
         this.contactsUpdate(contacts);
       });
-  }
+  };
 }

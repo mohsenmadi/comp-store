@@ -10,12 +10,12 @@
   <mat-form-field *ngIf="searchOn" appearance="fill">
     <input #searchInput
            matInput
-           [(ngModel)]="searchStr"
-           (keyup)="setSearchStr($event)"
+           [value]="searchStr$ | async"
+           (keyup)="setSearchStr($any($event.target).value)"
            placeholder="search...">
   </mat-form-field>
   <button mat-icon-button class="example-icon"
           (click)="toggleSearch()">
-    <mat-icon>{{ searchStr ? 'zoom_in' : 'search' }}</mat-icon>
+    <mat-icon>{{ (searchStr$ | async) ? 'zoom_in' : 'search' }}</mat-icon>
   </button>
 </mat-toolbar>

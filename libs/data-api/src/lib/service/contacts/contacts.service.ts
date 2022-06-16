@@ -25,6 +25,7 @@ export class ContactsService {
     return this.http.put<Contact>(URL + `/${contact.id}`, contact);
   }
 
+  // for a change, we're making "delete" return the entire collection
   delete(contact: Contact): Observable<Contact[]> {
     return this.http.delete<Contact[]>(URL + `/${contact.id}`);
   }

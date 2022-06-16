@@ -46,7 +46,7 @@ export class ContactsStore extends ComponentStore<ContactsState> {
   }));
 
   // "create" api returns created contact
-  // once emits a result, combine with class's state$, add, and patchState
+  // once emits a result, combine with store's state$, add, and patchState
   addContact = (contact: Contact) => {
     this.apiService.create(contact)
       .pipe(

@@ -6,6 +6,8 @@
     "comp-store": "libs/comp-store",
     "data-api": "libs/data-api",
     "data-model": "libs/data-model",
+    "learning": "apps/learning",
+    "learning-e2e": "apps/learning-e2e",
     "material": "libs/material",
     "ng-contacts": "apps/ng-contacts",
     "ng-contacts-e2e": "apps/ng-contacts-e2e"

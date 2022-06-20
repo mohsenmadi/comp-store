@@ -6,7 +6,8 @@
     "ng": "nx",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
     "start:api": "nx serve api",
-    "start:contacts": "nx serve",
+    "start:contacts": "nx serve ng-contacts",
+    "start:learning": "nx serve learning",
     "build": "nx build",
     "test": "nx test"
   },
@@ -14,7 +15,7 @@
   "dependencies": {
     "@angular/animations": "14.0.1",
     "@angular/cdk": "14.0.1",
-    "@angular/common":  "14.0.1",
+    "@angular/common": "14.0.1",
     "@angular/compiler": "14.0.1",
     "@angular/core": "14.0.1",
     "@angular/forms": "14.0.1",

@@ -2,7 +2,7 @@ import { Contact } from "@comp-store/data-model";
 import { Injectable } from "@angular/core";
 import { ComponentStore } from "@ngrx/component-store";
 import { ContactsService } from "@comp-store/data-api";
-import { map, take, withLatestFrom } from "rxjs";
+import { catchError, concatMap, EMPTY, exhaustMap, map, Observable, take, tap, withLatestFrom } from "rxjs";
 
 export interface ContactsState {
   contacts: Contact[];
@@ -24,13 +24,22 @@ export class ContactsStore extends ComponentStore<ContactsState> {
     this.loadContacts();
   }
 
-  private readonly loadContacts = () =>
-    this.apiService.all()
-      .pipe(take(1))
-      .subscribe(contacts => this.setState((state) => ({
-        ...state,
-        contacts
-      })));
+  private readonly loadContacts = this.effect((trigger$) =>
+    trigger$.pipe(
+      exhaustMap(() =>
+        this.apiService.all().pipe(
+          tap((contacts) => {
+            this.setState((state) => ({...state, contacts}));
+          }),
+          catchError(() => EMPTY))
+      )));
+  // private readonly loadContacts = () =>
+  //   this.apiService.all()
+  //     .pipe(take(1))
+  //     .subscribe(contacts => this.setState((state) => ({
+  //       ...state,
+  //       contacts
+  //     })));
 
   readonly contacts$ =
     this.select(({contacts}) => contacts);
@@ -52,16 +61,31 @@ export class ContactsStore extends ComponentStore<ContactsState> {
 
   // "create" api returns created contact
   // once emits a result, combine with store's state$, add, and patchState
-  addContact = (contact: Contact) => {
-    this.apiService.create(contact)
-      .pipe(
-        withLatestFrom(this.state$),
-        map(([apiContact, state]) => ([...state.contacts, apiContact])),
-        take(1))
-      .subscribe((contacts: Contact[]) =>
-        this.patchState({contacts})
-      );
-  };
+
+  // here, we define the input as an observable of a contact object
+  //  will use contactMap to add items in order, along with making a service request
+  addContact = this.effect(
+    (contact$: Observable<Contact>) =>
+      contact$.pipe(
+        concatMap((contact) =>
+          this.apiService.create(contact).pipe(
+            tap((apiContact) => {
+              this.setState((state) =>
+                ({...state, contacts: [...state.contacts, apiContact]})
+              );
+            }),
+            catchError(() => EMPTY)))
+      ));
+  // addContact = (contact: Contact) => {
+  //   this.apiService.create(contact)
+  //     .pipe(
+  //       withLatestFrom(this.state$),
+  //       map(([apiContact, state]) => ([...state.contacts, apiContact])),
+  //       take(1))
+  //     .subscribe((contacts: Contact[]) =>
+  //       this.patchState({contacts})
+  //     );
+  // };
 
   // "update" api returns updated contact
   // once emitted, combine with contacts$ from selector, locate and update through id,

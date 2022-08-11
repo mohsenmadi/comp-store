@@ -29,7 +29,6 @@ export class ContactsService {
 
   remove(id: string) {
     const idx = this.contacts.findIndex(contact => contact.id === id);
-    // const removed = this.contacts[idx];
     this.contacts.splice(idx, 1);
     return this.contacts;
   }

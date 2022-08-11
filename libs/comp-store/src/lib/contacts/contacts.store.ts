@@ -85,11 +85,8 @@ export class ContactsStore extends ComponentStore<ContactsState> {
 
   // "remove" api returns the entire, modified collection
   // once emitted, simply "update" state with new collection
-  deleteContact = (contact: Contact) => {
+  deleteContact = (contact: Contact) =>
     this.apiService.delete(contact)
       .pipe(take(1))
-      .subscribe(contacts => {
-        this.contactsUpdate(contacts);
-      });
-  };
+      .subscribe(contacts => this.contactsUpdate(contacts));
 }
